@@ -72,7 +72,7 @@ class Carousel {
     .then((json) => {
         data = json; 
         this.carouselData = data;
-        setupCarousel();
+        this.setupCarousel();
     });
 
     this.el = el;
