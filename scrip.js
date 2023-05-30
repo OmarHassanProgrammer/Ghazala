@@ -5,7 +5,7 @@ window.onscroll = function(e) {
     check();
 }
 
-check();
+//check();
 
 function check() {
     for (const item in items) {

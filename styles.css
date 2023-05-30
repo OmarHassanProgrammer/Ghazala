@@ -8,6 +8,10 @@
     font-family: 'TajawlBold';
     src: url('Tajawal-Bold.ttf') format('truetype');
 }
+@font-face {
+    font-family: 'Roboto';
+    src: url('Roboto-Bold.ttf') format('truetype');
+}
 
 .container {
     display: none;
@@ -20,7 +24,7 @@
     font-family: "TajawlBold", Tofu;
 }
 .container.l {
-    font-family: Roboto;
+    font-family: "Roboto";
 }
 
 .sols {
@@ -294,6 +298,11 @@
     }
     .sols .item .text {
         width: 100%;
+    }
+
+    .custom-shape-divider-top-1685461974 svg{
+        height: 130px;
+        width: 200%;
     }
 }
 
