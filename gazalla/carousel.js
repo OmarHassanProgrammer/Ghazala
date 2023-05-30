@@ -1,81 +1,46 @@
-let items = document.querySelectorAll('.sols .item');
-
-
-window.onscroll = function(e) {
-    check();
-}
-
-function check() {
-    for (const item in items) {
-        if (Object.hasOwnProperty.call(items, item)) {
-            const element = items[item];
-            
-            if(element.classList.contains('hide')) {
-                const rect = element.getBoundingClientRect();
-
-                if(rect.bottom <= window.outerHeight && rect.top >= 0) { 
-                    element.classList.remove('hide');
-                    element.classList.add('show');
-                }
-            }
-        }
-    }
-}
-
-let Ar = document.getElementById('ar');
-let En = document.getElementById('en');
-
-let ArContainer = document.querySelector('.container.r');
-let EnContainer = document.querySelector('.container.l');
-
-let currLang = localStorage.getItem('lang');
-
-if(currLang == "Ar") {
-    ArContainer.classList.add('show');
-    Ar.classList.add('active');
-} else {
-    currLang = "En";
-    EnContainer.classList.add('show');
-    En.classList.add('active');
-}
-
-Ar.onclick = function() {
-    if(currLang != "Ar") {
-        currLang = "Ar";
-        ArContainer.classList.add('show');
-        EnContainer.classList.remove('show');
-        Ar.classList.add('active');
-        En.classList.remove('active');
-        localStorage.setItem('lang', 'Ar');
-    }
-}
-En.onclick = function() {
-    if(currLang != "En") {
-        currLang = "En";
-        EnContainer.classList.add('show');
-        ArContainer.classList.remove('show');
-        Ar.classList.remove('active');
-        En.classList.add('active');
-        localStorage.setItem('lang', 'En');
-    }
-}
-
 'use strict';
-
-let data = {};
-
-fetch('./data.json')
-    .then((response) => response.json())
-    .then((json) => {
-        data = json; 
-        console.log(json);
-    });
 
 class Carousel {
   constructor(el) {
     this.el = el;
     this.carouselOptions = ['previous', 'play', 'next'];
-    this.carouselData = data;
+    this.carouselData = [
+      {
+        'id': '1',
+        'content': {
+          'bold': 'Bolded Line1',
+          'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        },
+      },
+      {
+        'id': '2',
+        'content': {
+          'bold': 'Bolded Line2',
+          'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        },
+      },
+      {
+        'id': '3',
+        'content': {
+          'bold': 'Bolded Line3',
+          'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        },
+      },
+      {
+        'id': '4',
+        'content': {
+          'bold': 'Bolded Line4',
+          'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        },
+      },
+      {
+        'id': '5',
+        'content': {
+          'bold': 'Bolded Line5',
+          'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        },
+      },
+    ];
     this.carouselInView = [1, 2, 3, 4, 5];
     this.carouselContainer;
     this.carouselPlayState;
@@ -152,27 +117,27 @@ class Carousel {
     this.carouselContainer = container;
   }
 
-setControls(controls) {
+  setControls(controls) {
     controls.forEach(control => {
-        control.onclick = (event) => {
+      control.onclick = (event) => {
         event.preventDefault();
 
         // Manage control actions, update our carousel data first then with a callback update our DOM
         this.controlManager(control.dataset.name);
-    };
+      };
     });
-}
+  }
 
-controlManager(control) {
+  controlManager(control) {
     if (control === 'previous') return this.previous();
     if (control === 'next') return this.next();
     if (control === 'add') return this.add();
     if (control === 'play') return this.play();
 
     return;
-}
+  }
 
-previous() {
+  previous() {
     // Update order of items in data array to be shown in carousel
     this.carouselData.unshift(this.carouselData.pop());
 
@@ -181,11 +146,11 @@ previous() {
 
     // Update the css class for each carousel item in view
     this.carouselInView.forEach((item, index) => {
-        this.carouselContainer.children[index].className = `carousel-item carousel-item-${item}`;
+      this.carouselContainer.children[index].className = `carousel-item carousel-item-${item}`;
     });
-}
+  }
 
-next() {
+  next() {
     // Update order of items in data array to be shown in carousel
     this.carouselData.push(this.carouselData.shift());
 
@@ -194,27 +159,27 @@ next() {
 
     // Update the css class for each carousel item in view
     this.carouselInView.forEach((item, index) => {
-        this.carouselContainer.children[index].className = `carousel-item carousel-item-${item}`;
+      this.carouselContainer.children[index].className = `carousel-item carousel-item-${item}`;
     });
-}
+  }
 
-add() {
+  add() {
     const newItem = {
-        'id': '',
-        'content': {
+      'id': '',
+      'content': {
         'bold': 'New Bolded Line',
         'description': 'New Description',
-        },
+      },
     };
     const lastItem = this.carouselData.length;
 
     // Assign properties for new carousel item
     Object.assign(newItem, {
-        id: `${lastItem + 1}`,
-        content: {
+      id: `${lastItem + 1}`,
+      content: {
         'bold': `New Bolded Line ${lastItem + 1}`,
         'description': `New Description ${lastItem + 1}`,
-        },
+      },
     });
 
     // Then add it to the "last" item in our carouselData
@@ -222,30 +187,30 @@ add() {
 
     // Shift carousel to display new item
     this.next();
-}
+  }
 
-    play() {
-        const playBtn = document.querySelector('.carousel-control-play');
-        const startPlaying = () => this.next();
+  play() {
+    const playBtn = document.querySelector('.carousel-control-play');
+    const startPlaying = () => this.next();
 
-        if (playBtn.classList.contains('playing')) {
-        // Remove class to return to play button state/appearances
-        playBtn.classList.remove('playing');
+    if (playBtn.classList.contains('playing')) {
+      // Remove class to return to play button state/appearances
+      playBtn.classList.remove('playing');
 
-        // Remove setInterval
-        clearInterval(this.carouselPlayState);
-        this.carouselPlayState = null;
-        } else {
-        // Add class to change to pause button state/appearance
-        playBtn.classList.add('playing');
+      // Remove setInterval
+      clearInterval(this.carouselPlayState);
+      this.carouselPlayState = null;
+    } else {
+      // Add class to change to pause button state/appearance
+      playBtn.classList.add('playing');
 
-        // First run initial next method
-        this.next();
+      // First run initial next method
+      this.next();
 
-        // Use play state prop to store interval ID and run next method on a 1.5 second interval
-        this.carouselPlayState = setInterval(startPlaying, 1500);
-        };
-    }
+      // Use play state prop to store interval ID and run next method on a 1.5 second interval
+      this.carouselPlayState = setInterval(startPlaying, 1500);
+    };
+  }
 }
 
 // Refers to the carousel root element you want to target, use specific class selectors if using multiple carousels
@@ -254,35 +219,3 @@ const el = document.querySelector('.carousel');
 const exampleCarousel = new Carousel(el);
 // Setup carousel and methods
 exampleCarousel.mounted();
-
-
-let submitBtn = document.querySelector('.submit-button');
-
-
-submitBtn.onclick = function(e) {
-    let name = document.getElementById('name').value;
-    let message = document.getElementById('message').value;
-    
-    e.stopPropagation();
-    let fs = require('fs');
-
-    fs.exists('data.json', function(exists) {
-        if(exists) {
-            fs.readFile('data.json', function readFileCallBack(err, data) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    obj = JSON.parse(data);
-                    obj.table.push({
-                        name: name,
-                        message: message
-                    });
-                    
-                    let json = JSON.stringify(obj);
-                    fs.writeFile('data.json', json);
-                }
-            })
-        }
-    } );
-
-}
