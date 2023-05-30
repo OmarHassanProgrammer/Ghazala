@@ -5,8 +5,6 @@ window.onscroll = function(e) {
     check();
 }
 
-//check();
-
 function check() {
     for (const item in items) {
         if (Object.hasOwnProperty.call(items, item)) {
