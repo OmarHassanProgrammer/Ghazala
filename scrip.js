@@ -15,7 +15,7 @@ function check() {
             if(element.classList.contains('hide')) {
                 const rect = element.getBoundingClientRect();
 
-                if(rect.bottom <= window.outerHeight && rect.top >= 0) { 
+                if(rect.bottom <= window.outerHeight && rect.top > 0) { 
                     element.classList.remove('hide');
                     element.classList.add('show');
                 }
