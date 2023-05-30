@@ -74,7 +74,7 @@ class Carousel {
         data = json; 
         console.log(json);
 
-        this.carouselData = () => {
+        
             let results = [];
         
             for (const element in data) {
@@ -119,8 +119,8 @@ class Carousel {
             carouselItem.className = `carousel-item carousel-item-${index + 1}`;
             carouselItem.setAttribute('data-index', `${index + 1}`);
           });
-            return results;
-        };
+        
+        this.carouselData = results;
 
         
 
