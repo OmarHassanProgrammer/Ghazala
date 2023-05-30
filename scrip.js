@@ -89,10 +89,8 @@ class Carousel {
                     });
                 }
             }
-            return results;
-        };
-
-        this.carouselData.forEach((item, index) => {
+            
+            results.forEach((item, index) => {
             const carouselItem = document.createElement('div');
       
             // Create a div to hold the content
@@ -119,6 +117,10 @@ class Carousel {
             carouselItem.className = `carousel-item carousel-item-${index + 1}`;
             carouselItem.setAttribute('data-index', `${index + 1}`);
           });
+            return results;
+        };
+
+        
 
     });
 
