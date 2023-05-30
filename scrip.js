@@ -71,7 +71,23 @@ class Carousel {
     .then((response) => response.json())
     .then((json) => {
         data = json; 
-        this.carouselData = data;
+        
+        let results = [];
+
+        for (const element in data) {
+            if (Object.hasOwnProperty.call(data, element)) {
+                const val = data[element];
+                results.push( {
+                    'id': element,
+                    'content': {
+                        'bold': val.name,
+                        'description': val.message
+                    },
+                });
+            }
+        }
+        this.carouselData = results;
+        
         setupCarousel();
     });
 
