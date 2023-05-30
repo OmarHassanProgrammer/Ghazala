@@ -77,58 +77,21 @@ class Carousel {
     this.carouselOptions = ['previous', 'play', 'next'];
     this.carouselData = () => {
         let results = [];
-
+    
         for (const element in data) {
             if (Object.hasOwnProperty.call(data, element)) {
-                const element = data[element];
+                const val = data[element];
                 results.push({
-                    'id': element.name,
+                    'id': val.name,
                     'content' : {
-                        'bold': element.name,
-                        'description': element.message
+                        'bold': val.name,
+                        'description': val.message
                     }
                 });
             }
         }
         return results;
-    }
-    [
-      {
-        'id': '1',
-        'content': {
-          'bold': 'Bolded Line1',
-          'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-        },
-      },
-      {
-        'id': '2',
-        'content': {
-          'bold': 'Bolded Line2',
-          'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-        },
-      },
-      {
-        'id': '3',
-        'content': {
-          'bold': 'Bolded Line3',
-          'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-        },
-      },
-      {
-        'id': '4',
-        'content': {
-          'bold': 'Bolded Line4',
-          'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-        },
-      },
-      {
-        'id': '5',
-        'content': {
-          'bold': 'Bolded Line5',
-          'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-        },
-      },
-    ];
+    };
     this.carouselInView = [1, 2, 3, 4, 5];
     this.carouselContainer;
     this.carouselPlayState;
@@ -311,6 +274,31 @@ exampleCarousel.mounted();
 
 let submitBtn = document.querySelector('.submit-button');
 
+
 submitBtn.onclick = function(e) {
+    let name = document.getElementById('name').value;
+    let message = document.getElementById('message').value;
+    
     e.stopPropagation();
+    let fs = require('fs');
+
+    fs.exists('data.json', function(exists) {
+        if(exists) {
+            fs.readFile('data.json', function readFileCallBack(err, data) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    obj = JSON.parse(data);
+                    obj.table.push({
+                        name: name,
+                        message: message
+                    });
+                    
+                    let json = JSON.stringify(obj);
+                    fs.writeFile('data.json', json);
+                }
+            })
+        }
+    } );
+
 }
