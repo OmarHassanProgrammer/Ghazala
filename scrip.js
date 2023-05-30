@@ -275,31 +275,30 @@ exampleCarousel.mounted();
 
 let submitBtn = document.querySelector('.submit-button');
 
+const fs = require("fs");
 
 submitBtn.onclick = function(e) {
+    e.stopPropagation();
+
     let name = document.getElementById('name').value;
     let message = document.getElementById('message').value;
     
-    e.stopPropagation();
-    let fs = require('fs');
+    const data = JSON.stringify({
+        name: name,
+        message: message
+    });
+    
+    fs.writeFile("data.json", data, (error) => {
+        // throwing the error
+        // in case of a writing problem
+        if (error) {
+          // logging the error
+            console.error(error);
 
-    fs.exists('data.json', function(exists) {
-        if(exists) {
-            fs.readFile('data.json', function readFileCallBack(err, data) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    obj = JSON.parse(data);
-                    obj.table.push({
-                        name: name,
-                        message: message
-                    });
-                    
-                    let json = JSON.stringify(obj);
-                    fs.writeFile('data.json', json);
-                }
-            })
+            throw error;
         }
-    } );
+    
+        console.log("data.json written correctly");
+    });
 
 }
