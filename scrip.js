@@ -88,7 +88,7 @@ class Carousel {
         }
         this.carouselData = results;
         
-        setupCarousel();
+        this.setupCarousel();
     });
 
     this.el = el;
