@@ -90,6 +90,8 @@ class Carousel {
                 }
             }
             
+            const container = document.createElement('div');
+            
             results.forEach((item, index) => {
             const carouselItem = document.createElement('div');
       
