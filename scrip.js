@@ -62,76 +62,28 @@ En.onclick = function() {
 
 'use strict';
 
-let data = [];
-
-
+let data = {};
 
 class Carousel {
   constructor(el) {
+    
     fetch('./data.json')
     .then((response) => response.json())
     .then((json) => {
         data = json; 
-        console.log(json);
-
-        this.carouselData = () => {
-            let results = [];
-        
-            for (const element in data) {
-                if (Object.hasOwnProperty.call(data, element)) {
-                    const val = data[element];
-                    results.push({
-                        'id': val.name,
-                        'content' : {
-                            'bold': val.name,
-                            'description': val.message
-                        }
-                    });
-                }
-            }
-            return results;
-        };
-
-        this.carouselData.forEach((item, index) => {
-            const carouselItem = document.createElement('div');
-      
-            // Create a div to hold the content
-            const contentDiv = document.createElement('div');
-      
-            // Create a paragraph for the bolded line
-            const boldLine = document.createElement('p');
-            boldLine.textContent = item.content.bold;
-            boldLine.style.fontWeight = 'bold';
-      
-            // Create a paragraph for the description
-            const description = document.createElement('p');
-            description.textContent = item.content.description;
-      
-            // Append the paragraphs to the content div
-            contentDiv.append(boldLine, description);
-      
-            // Append the content div to the carousel item
-            carouselItem.append(contentDiv);
-      
-            container.append(carouselItem);
-      
-            // Add item attributes
-            carouselItem.className = `carousel-item carousel-item-${index + 1}`;
-            carouselItem.setAttribute('data-index', `${index + 1}`);
-          });
-
+        this.carouselData = data;
+        setupCarousel();
     });
 
     this.el = el;
     this.carouselOptions = ['previous', 'play', 'next'];
-    
+    this.carouselData = data;
     this.carouselInView = [1, 2, 3, 4, 5];
     this.carouselContainer;
     this.carouselPlayState;
   }
 
   mounted() {
-    this.setupCarousel();
 
     if (/iPhone|Android|Windows Phone/i.test(navigator.userAgent)) {
       this.play();
@@ -149,7 +101,33 @@ class Carousel {
     controls.className = 'carousel-controls';
 
     // Take dataset array and append items to container
-    
+    this.carouselData.forEach((item, index) => {
+      const carouselItem = document.createElement('div');
+
+      // Create a div to hold the content
+      const contentDiv = document.createElement('div');
+
+      // Create a paragraph for the bolded line
+      const boldLine = document.createElement('p');
+      boldLine.textContent = item.content.bold;
+      boldLine.style.fontWeight = 'bold';
+
+      // Create a paragraph for the description
+      const description = document.createElement('p');
+      description.textContent = item.content.description;
+
+      // Append the paragraphs to the content div
+      contentDiv.append(boldLine, description);
+
+      // Append the content div to the carousel item
+      carouselItem.append(contentDiv);
+
+      container.append(carouselItem);
+
+      // Add item attributes
+      carouselItem.className = `carousel-item carousel-item-${index + 1}`;
+      carouselItem.setAttribute('data-index', `${index + 1}`);
+    });
 
     this.carouselOptions.forEach((option) => {
       const btn = document.createElement('button');
