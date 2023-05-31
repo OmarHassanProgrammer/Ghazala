@@ -76,7 +76,7 @@ let data = {};
 class Carousel {
   constructor(el) {
     
-    fetch('https://apis.great-site.net/get.php', { method: "GET", mode: 'cors', headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'}})
+    fetch('data.json')
     .then((response) => response.json())
     .then((json) => {
         data = json; 
@@ -97,22 +97,28 @@ class Carousel {
         }
         this.carouselData = results;
         
+        for(let j = 1; j <= data.length; j++) {
+            this.carouselInView.push(j);
+        }
+        
         this.setupCarousel();
+        
+      this.play();
     });
 
     this.el = el;
     this.carouselOptions = ['previous', 'play', 'next'];
     this.carouselData = data;
-    this.carouselInView = [1, 2, 3, 4, 5];
+
+    this.carouselInView = [];
+
     this.carouselContainer;
     this.carouselPlayState;
   }
 
   mounted() {
 
-    if (/iPhone|Android|Windows Phone/i.test(navigator.userAgent)) {
-      this.play();
-    }
+    
   }
 
   // Build carousel html
@@ -222,6 +228,7 @@ next() {
     this.carouselInView.forEach((item, index) => {
         this.carouselContainer.children[index].className = `carousel-item carousel-item-${item}`;
     });
+
 }
 
 add() {
@@ -254,23 +261,12 @@ add() {
         const playBtn = document.querySelector('.carousel-control-play');
         const startPlaying = () => this.next();
 
-        if (playBtn.classList.contains('playing')) {
-        // Remove class to return to play button state/appearances
-        playBtn.classList.remove('playing');
-
-        // Remove setInterval
-        clearInterval(this.carouselPlayState);
-        this.carouselPlayState = null;
-        } else {
-        // Add class to change to pause button state/appearance
-        playBtn.classList.add('playing');
-
         // First run initial next method
         this.next();
 
         // Use play state prop to store interval ID and run next method on a 1.5 second interval
         this.carouselPlayState = setInterval(startPlaying, 1500);
-        };
+        
     }
 }
 
@@ -284,8 +280,9 @@ exampleCarousel.mounted();
 
 let submitBtn = document.querySelector('.submit-button');
 
-submitBtn.onclick = function(e) {
-    e.stopPropagation();
+/*submitBtn.onclick = function(e) {
+    evt.preventDefault();
+    window.history.back();
 
     let name = document.getElementById('name').value;
     let message = document.getElementById('message').value;
@@ -295,17 +292,11 @@ submitBtn.onclick = function(e) {
         message: message
     });
     
-    fs.writeFile("data.json", data, (error) => {
-        // throwing the error
-        // in case of a writing problem
-        if (error) {
-          // logging the error
-            console.error(error);
-
-            throw error;
+    fetch("add.php", {
+        method: "POST",
+        body: data,
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
         }
-    
-        console.log("data.json written correctly");
     });
-
-}
+}*/
