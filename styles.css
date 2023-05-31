@@ -726,12 +726,18 @@
     background-color: #45a049;
 }
 
-
 .form {
+    display: none;
+
+}
+.form-c, .form {
     position: relative;
-    margin-top: 50px
+    margin-top: 50px;
 }
 
+.form.show {
+    display: block;
+}
 .form .content {
     display: flex;
 }
@@ -749,7 +755,7 @@
     margin-top: 30px;
 }
 
-.form .back {
+.form-c .back {
     position: absolute;
     top: -70px;
     bottom: 0;

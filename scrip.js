@@ -28,14 +28,19 @@ let En = document.getElementById('en');
 let ArContainer = document.querySelector('.container.r');
 let EnContainer = document.querySelector('.container.l');
 
+let ArForm = document.querySelector('.form.r');
+let EnForm = document.querySelector('.form.l');
+
 let currLang = localStorage.getItem('lang');
 
 if(currLang == "Ar") {
     ArContainer.classList.add('show');
+    ArForm.classList.add('show');
     Ar.classList.add('active');
 } else {
     currLang = "En";
     EnContainer.classList.add('show');
+    EnForm.classList.add('show');
     En.classList.add('active');
 }
 
@@ -44,6 +49,8 @@ Ar.onclick = function() {
         currLang = "Ar";
         ArContainer.classList.add('show');
         EnContainer.classList.remove('show');
+        ArForm.classList.add('show');
+        EnForm.classList.remove('show');
         Ar.classList.add('active');
         En.classList.remove('active');
         localStorage.setItem('lang', 'Ar');
@@ -54,6 +61,8 @@ En.onclick = function() {
         currLang = "En";
         EnContainer.classList.add('show');
         ArContainer.classList.remove('show');
+        EnForm.classList.add('show');
+        ArForm.classList.remove('show');
         Ar.classList.remove('active');
         En.classList.add('active');
         localStorage.setItem('lang', 'En');
@@ -67,7 +76,7 @@ let data = {};
 class Carousel {
   constructor(el) {
     
-    fetch('./data.json')
+    fetch('http://apis.great-site.net/data.json')
     .then((response) => response.json())
     .then((json) => {
         data = json; 
@@ -274,8 +283,6 @@ exampleCarousel.mounted();
 
 
 let submitBtn = document.querySelector('.submit-button');
-
-const fs = require("fs");
 
 submitBtn.onclick = function(e) {
     e.stopPropagation();
