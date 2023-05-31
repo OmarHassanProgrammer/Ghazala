@@ -76,7 +76,7 @@ let data = {};
 class Carousel {
   constructor(el) {
     
-    fetch('apis.great-site.net/data.json')
+    fetch('http://apis.great-site.net/data.json')
     .then((response) => response.json())
     .then((json) => {
         data = json; 
